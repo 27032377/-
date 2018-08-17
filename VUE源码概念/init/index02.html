@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue数据响应化</title>
+</head>
+<body>
+    <script>
+        (function () {
+            function Vue () {}
+            Vue.prototype._initData = function () {
+                var dataFn = this.$options.data;
+                // 保存data () {}
+                var data = this._data = dataFn ? dataFn() : {};
+                var props = this._props;
+                // 返回data对象所有属性的一个数组
+                var keys = Object.keys(data);
+                var i, key
+                i = keys.length
+                while (i--) {
+                    key = keys[i]
+                // proxy遍历所有Vue实例中的属性，如果 key in allKeys[j],则返回allKeys[j][key]
+                // 故this.data.xx | this.computed.oo 才能直接写成this.xx | this.oo
+                    this._proxy(key)
+                }
+                // this为Vue
+                observe(data, this)
+            }
+            function Cat () {
+                this.a = 'a'
+                this.b = [1, 2, 3]
+            }
+            // Cat.prototype.b = [1, 2, 3]
+            Object.defineProperty(Cat.prototype, 'b', {
+                set(newValue) {
+                    console.log(newValue)
+                },
+                get () {}
+            })
+            let xx = new Cat()
+            xx.b.push(4)
+        })()
+    </script>
+</body>
+</html>
