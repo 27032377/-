@@ -1,0 +1,1 @@
+1. ./init/lifecycle -- mountComponent -- new Watcher()
