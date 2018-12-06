@@ -156,5 +156,69 @@ export function updateChildComponent (
     parentVnode: MountedComponentVNode,
     renderChildren: ?Array<VNode>
 ) {
-    
+    // determine whether component has slot children
+    // we need to do this before overwriting $options._renderChildren
+    const hasChildren = !!(
+        renderChildren || // has new static slots
+        vm.$options._renderChildren || // has old static slots
+        parentVnode.data.scopedSlots || // has new scoped slots
+        vm.$scopedSlots !== emptyObject // has old scoped slots
+    )
+    vm.$options._parentVnode = parentVnode
+    vm.$vnode = parentVnode // update vm's placeholder node without re-render
+    if (vm._vnode) {
+        vm._vnode.parent = parentVnode // update child tree's parent
+    }
+
+    // update $attrs and $listeners hash
+    // these are also reactive aso they may trigger child update if the child
+    // used them during render
+    vm.$options._renderChildren = renderChildren
+    vm.$attrs = parentVnode.data.attrs || emptyObject
+    vm.$listeners = listeners || emptyObject
+
+    // update props
+    if (propData && vm.options.props) {
+        toggleObserving(false)
+        const props = vm._props
+        const propKeys = vm.$options._propKeys || []
+        for (let i = 0; i < propKeys.length; i++) {
+            const key = propKeys[i]
+            const propOptions: any = vm.$options.props
+            props[key] = validateProp(key, propOptions, propData, vm)
+        }
+        toggleObserving(true)
+        // keep a copy of raw propData
+        vm.$options.propData = propsData
+    }
+
+    // update listeners
+    listeners = listeners || emptyObject
+    const oldListeners = vm.$options._parentListeners
+    vm.$options._parentListeners = listeners
+    updateComponentListeners(vm, listeners, oldListeners)
+
+    // resolve slots + force update if has children
+    if (hasChildren) {
+        vm.$slots = resolveSlots(renderChildren, parentVnode.context)
+        vm.$forceUpdate()
+    }
+}
+
+export function callHook (vm: Component, hook: string) {
+    pushTarget()
+    const handlers = vm.$options[hook]
+    if (handlers) {
+        for (let i = 0, j = handlers.length; i < j; i++) {
+            try {
+                handlers[i].call(vm)
+            } catch (e) {
+                handleError(e, vm, `${hook} hook`)
+            }
+        }
+    }
+    if (vm._hasHookEvent) {
+        vm.$emit('hook:' + hook)
+    }
+    popTarget()
 }
