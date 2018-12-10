@@ -10,7 +10,7 @@ let server = http.createServer((req, res) => {
     // options <object> | <string>
         // encoding <string> | <null>默认为null
         // 如果没有指定encoding，则返回原始buffer
-    fs.readFile('./public/01.html', (err, data) => {
+    fs.readFile('../public/01.html', (err, data) => {
         // 把文本文件的内容进行呈递：
         res.end(data);
     })
