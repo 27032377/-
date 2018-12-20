@@ -1,0 +1,21 @@
+{
+  "name": "Node.js-note",
+  "version": "1.0.0",
+  "description": "Node.js学习笔记",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "Node.js",
+    "学习",
+    "笔记"
+  ],
+  "author": "姜杰",
+  "license": "ISC",
+  "dependencies": {
+    "finalhandler": "^1.1.1",
+    "pdf-to-base64": "^1.0.1",
+    "serve-static": "^1.13.2",
+    "static-server": "^2.2.1"
+  },
+  "private": true
+}
