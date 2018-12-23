@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>public-index</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1 id="header">public/index.html</h1>
+    <section>
+        <input name="name" id="name" type="text" value="" placeholder="请输入名字">
+    </section>
+    <section>
+        <input type="text" name="age" id="age" value="" placeholder="请输入年龄">
+    </section>
+    <section>
+        <label>
+            <input type="radio" name="sex" value="男" checked="checked"> 男 
+        </label>
+        <label>
+            <input type="radio" name="sex" value="女"> 女 
+        </label>
+    </section>
+    <button id="btn1">GET按钮</button>
+    <button id="btn2">POST按钮</button>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        window.onload = () => {
+            $('#btn1').on('click', function () {
+                var name = $('#name').val();
+                var age = $('#age').val();
+                var sex = $('input[name=sex]:checked').val();
+                $.get('/addStudent', {
+                    name: name,
+                    age: age,
+                    sex: sex
+                }, function (res) {
+                    if (res === 'success') {
+                        alert('GET存入学生数据成功')
+                    }
+                })
+            });
+            $('#btn2').on('click', function () {
+                var name = $('#name').val();
+                var age = $('#age').val();
+                var sex = $('input[name=sex]:checked').val();
+                $.post('/addStudent', {
+                    name: name,
+                    age: age,
+                    sex: sex
+                }, function (res) {
+                    if (res === 'success') {
+                        alert('POST存入学生数据成功')
+                    }
+                })
+            })
+        }
+    </script>
+</body>
+</html>
