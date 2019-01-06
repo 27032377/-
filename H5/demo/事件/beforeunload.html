@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BeforeUnload</title>
+</head>
+<body>
+    <div>BeforeUnload</div>
+    <script>
+        window.onload = () => {
+            // 回退没效果，刷新有用，msg没用
+            window.addEventListener('beforeunload', e => {
+                const msg = 'I\'m ready to miss you!';
+                e.returnValue = msg;
+                return msg;
+            })
+            // 监听浏览器回退
+            if (window.history && window.history.pushState) {
+                window.addEventListener('popstate', e => {
+                    console.log('xxx');
+                    window.history.forward(1);
+                })
+            }
+        }
+    </script>
+</body>
+</html>
