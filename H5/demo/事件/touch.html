@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Touch</title>
+</head>
+<body>
+    <div id="context">
+        <form action="" id="form1">
+            <fieldset>
+                <legend>哈哈</legend>
+                a<input name="a" type="text" id="xx" value="haha" />
+                b<input name="b" type="text" id="oo" pattern="\d+" />
+            </fieldset>
+        </form>
+        <!-- contenteditable实现富文本编辑  -->
+        <div style="height:200px; width:200px;background:#999;" id="richedit" contenteditable="true"></div>
+    </div>
+    <!-- <iframe src="blank.html" frameborder="0" name="richedit" style="height:100px;width:100px;"></iframe> -->
+    <script type="text/javascript">
+        const inputA = document.getElementById('xx');
+        xx.addEventListener('select', e => {
+            // selectionStart,selectionEnd表示选择文本的索引
+            console.log(xx.selectionStart, xx.selectionEnd);
+            console.log(xx.value.substring(xx.selectionStart, xx.selectionEnd));
+            console.log(xx.hasOwnProperty('execCommand'));
+        }, false);
+
+        // 触发剪切、复制、粘贴时候可以触发clipboardData对象
+        // ie的clipboardData为window对象，chrome为event对象
+        xx.addEventListener('copy', e => {
+            console.log(e.clipboardData);
+            // clipboardData提供getData(),setData(),clearData()三个方法
+            // 第一个参数为文本类型，ie为text，chrome为text/plain
+            const clipboardData = e.clipboardData;
+        }, false);
+        // form可以在onfocus时候调用
+        // function xxxx (_this) {
+        //     console.log(_this.value);
+        //     _this.select();
+        // }
+        window.onload = () => {
+            // window.addEventListener('touchstart', e => {
+            //     console.log(e);
+            // })
+            const form = document.getElementById('form1');
+            console.log(form.elements);
+
+            // iframe实现富文本
+            // frames['richedit'].document.designMode = 'on';
+
+            document.execCommand('italic', false, null);
+        }
+    </script>
+</body>
+</html>
