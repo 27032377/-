@@ -84,10 +84,34 @@
 
 - 分组查询：将查询结果按照1个或多个字段进行分组，字段值相同的为一组
     1. 当group by单独使用时，只显示出每组的第一条记录，所以单独使用时实际意义不大;
-    2. 关键字：group by，group_concat(字段名);
+    2. 关键字：group by，group_concat(字段名)，having;
     3. 在使用分组时，select后面直接跟的字段一般都会出现在group by后；
     4. group_concat(字段名)可以作为一个输出字段来使用;
-    5. 根据分组结果，使用group_concat()来放置每一组的某字段的值的集合
+    5. 根据分组结果，使用group_concat()来放置每一组的某字段的值的集合；
+    6. having用来分组查询后指定一些条件来输出查询结果
+    7. having作用和where一样，但having只能用于group by
+
+- having和where的区别：
+    1. having是在分组后对数据进行过滤
+    2. where是在分组前对数据进行过滤
+    3. having后面可以使用分组函数(统计函数)
+    4. where后面不可以使用分组函数
+    5. where是对分组前记录的条件，如果某行记录没有满足where字句的条件，那么这行记录不会参加分组
+    6. having是对分组后的主句的约束
+
+- select语句的书写顺序：
+*select from where group by having order by limit*
+
+- select语句的执行顺序：
+*from where group by having select order by limit*
+
+- limit分页思路：
+    int curPage = 1; 当前页
+    int pageSize = 3; 每页多少条数据
+    当前页为1 第一页从0开始 (1-1)*3 = 0
+    当前页为2 第二页从3开始 (2-1)*3 = 3
+    当前页为3 第三页从6开始 (3-1)*3 = 6
+    select * from students limit (curPage-1) * pageSize, pageSize
 
 ## DCL:数据控制语言
 

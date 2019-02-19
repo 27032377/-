@@ -1,0 +1,19 @@
+# 创建主键
+# CREATE TABLE person(ID BIGINT PRIMARY KEY,NAME VARCHAR(50));
+# CREATE TABLE person(ID BIGINT,NAME VARCHAR(50),AGE INT,PRIMARY KEY(ID));
+
+# 联合主键
+# CREATE TABLE person(ID BIGINT,SNUM BIGINT, NAME VARCHAR(20), PRIMARY KEY(ID, SNUM));
+
+# 主键约束，先创建表，再去修改表，添加主键
+# CREATE TABLE person(sid INT, name VARCHAR(10));
+# ALTER TABLE person ADD CONSTRAINT PRIMARY KEY(sid);
+
+# 唯一约束，值唯一，可以为null
+# CREATE TABLE person(id INT PRIMARY KEY, name VARCHAR(10) UNIQUE);
+
+# 自动增长列
+# CREATE TABLE person(id INT PRIMARY KEY auto_increment,name VARCHAR(10) UNIQUE)
+
+# 域完整性，not null，gender默认为男
+CREATE TABLE person(id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(10) UNIQUE NOT NULL, gender CHAR(1) DEFAULT '男');
