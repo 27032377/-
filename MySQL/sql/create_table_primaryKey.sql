@@ -42,3 +42,6 @@
 -- CREATE TABLE department (deptmo INT PRIMARY KEY, dename VARCHAR(20) NOT NULL,
 -- local VARCHAR(20) NOT NULL);
 -- CREATE TABLE grade (grade INT PRIMARY KEY AUTO_INCREMENT, lowSalary INT UNIQUE NOT NULL, highSalary INT UNIQUE NOT NULL);
+
+CREATE TABLE zs_accout(name VARCHAR(30), money DECIMAL);
+CREATE TABLE ls_accout(name VARCHAR(30), money DECIMAL);
