@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <% data.forEach(item => { %>
+            <li>
+                <span>编号：<%= item.empno %> </span>
+                <span>姓名：<%= item.ename %> </span>
+                <span>职位：<%= item.job %> </span>
+                <span>所属上级编号：<%= item.mgr %> </span>
+                <span>入职日期：<%= item.hiredate %> </span>
+                <span>工资：<%= item.salary %> </span>
+                <span>部门编号：<%= item.deptmo %> </span>
+                <span>部门名称：<%= item.dename %> </span>
+                <span>部门地点：<%= item.local %> </span>
+            </li>
+        <% }) %>
+    </ul>
+    <form action="/getData" method="POST">
+        <div class="form-group">
+          <input type="text" name="thing" class="form-control form-control-lg" placeholder="随便写点东西...">
+        </div>
+        <input type="submit" value="添加" class="btn btn-dark btn-lg">
+        <a href="/" class="btn btn-danger btn-lg">取消</a>
+      </form>
+    <button type="submit" id="button">请求2</button>
+    <a href="/getData">Lianjie</a>
+</body>
+<script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $('#button').on('click', function () {
+        var data = {
+            aaa: 'aaa'
+        }
+        $.post(
+            '/getData',
+            data,
+            function (res) {
+                console.log(res);
+            }, function (err) {
+                throw err;
+            })
+    })
+</script>
+</html>
