@@ -1,31 +1,76 @@
-# webpack for practise
+# README
 
-## 准备
+## 常见插件类 Plugins
 
-- npm int -y 生成package.json
+*仅支持webpack3.0，用mini-css-extract-plugin替代，不需要style-loader，有冲突*
 
-- npm install webpack --save-dev 安装webpack本地依赖
+- extract-text-webpack-plugin 能够将css文件打包成一个单独文件(夹)
 
-- src/index.html 用于引入打包后的js文件(bundle.js)
+```
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-- npm install webpack-dev-server 使用webpack构建本地服务器
+module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'vue-style-loader',
+                    use: 'css-loader'
+                })
+            }
+        ]
+    },
+    plugins: [
+        new ExtractTextPlugin({
+            filename: './dist/css/[name].[hash].bundle.css'
+        })
+    ]
+}
+```
 
-## 正式使用
+*更多参见 [npmjs]([github](https://www.npmjs.com/package/extract-text-webpack-plugin))*
 
-- webpack.config.js进行配置
+- html-webpack-plugin
 
-- 配置完entry & output 终端输入命令webpack即可打包
+将原有的index.html替换生成新的index.html
 
-## 更快捷的执行打包任务
+- babel-loader
 
-- package.json中script中提供键值对"xx": "webpack"可以使用npm来打包
+编译js文件，babel-loader 8+/7+ 搭配 babel-core 7+/6+，推荐前者
 
-## webpack的强大功能
+- mini-css-extract-plugin
 
-### 生成Source Maps(使调试更容易)
+能够将css文件单独打包成一个块/文件/文件夹，推荐使用，因为extract-text-webpack-plugin在webpack4+中不在更新维护，mini-css-extract-plugin与style-loader有冲突，不需要使用style-loader
 
-打包后的文件，是不容易找到出错了的地方，对应写的代码的位置的，source map就是解决这个问题的，提供一种对应编译文件和源文件的方法，使得编译后的代码可读性更高，更容易调试
+```
+module: {
+    rules: [
+        {
+            test: /\.css$/,
+            use: [
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                },
+                'css-loader'
+            ]
+        },{
+            test: /.\js$/,
+            loader: 'babel-loader',
+            exclude: /node_modules/
+        }
+    ]
+},
+plugins: [
+    new HtmlWebpackPlugin(),
+    new MiniCssExtractPlugin({
+        filename: './css/[name].[hash].css'
+    })
+]
+```
 
-### 使用webpack构建本地服务器
+## 安装
 
-这个本地服务器基于node.js构建，package.json的script中"xx": "webpack-dev-server --open"
+- 最好安装在本地，有利于项目更新
+
+- 4.0 额外安装 webpack-cli
