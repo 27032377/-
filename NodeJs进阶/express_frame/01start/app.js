@@ -1,16 +1,20 @@
 const express = require('express');
+const router = require('./src/router/index.js');
 let app = express();
-let router = express.Router();
-const MIME = {'content-type': 'text/plain;charset=UTF-8;'};
-router.get('/login', (req, res) => {
-    res.writeHead(200, MIME);
-    res.end('login page');
-}).get('/register', (req, res) => {
-    res.writeHead(200, MIME);
-    res.end('register page');
+
+router.get('/hero', (req, res) => {
+    // 服务端渲染
+    res.render('hero.html', {
+        heros: [{name: 'a'}, {name: 'b'}]
+    });
 })
+// 渲染文件的后缀名(引擎名称)
+app.engine('.html', require('express-art-template'));
+// 配置默认渲染引擎
+app.set('view engine', '.html');
 
 app.use(router);
+
 // const URL = {
 //     '/a': 'a',
 //     '/b': 'b'
