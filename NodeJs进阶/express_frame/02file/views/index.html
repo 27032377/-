@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p id="title"></p>
+    <!-- 同步上传文件的时候，表单form一定要加上multipart/form-data -->
+    <form action="/add" method="post" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="name" value="" />
+        <input type="text" name="age" placeholder="age" value="">
+        <input type="file" name="img" value="">
+        <button>添加</button>
+    </form>
+    <img id="upImage" src="" alt="">
+    <script src="/public/index.js"></script>
+</body>
+</html>
