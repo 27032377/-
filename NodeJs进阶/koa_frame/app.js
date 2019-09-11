@@ -10,6 +10,17 @@ let app = new koa();
 
 app.use(bodyparser());
 
+// 处理错误
+app.use(async (ctx, next) => {
+    try {
+        await next();
+    } catch(error) {
+        console.log(error)
+        ctx.status = 200
+        ctx.body = '<h1>server error</h1>'
+    }
+})
+
 render(app, {
     // 页面查找的目录
     root: path.join(__dirname, 'views'),
@@ -37,7 +48,7 @@ const sessionConfig = {
     key: 'koa:session', // session的名
     maxAge: 96400000, // 过期时间
     overWrite: true, // 重写
-    httpOnly: true, // 不允许客户端操作cookie
+    httpOnly: true, // 不允许客户端操作cookie 
     signed: true, // 签名，保证数据不被串改
     rolling: false, // 过期时间访问顺延
     renew: false // 过期后，是否创建新的cookie
@@ -55,6 +66,7 @@ app.use(session(sessionConfig, app));
  */
 app.use(router.routes()).use(router.allowedMethods());
 
+// 错误处理，仅仅是服务器方的一个log日志记录
 app.on('error', (err, ctx) => {
     console.error('server error', err, ctx);
     ctx.body = `<h2>500 server error</h2>`
